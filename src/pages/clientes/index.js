@@ -19,12 +19,28 @@ function ClientePage() {
             .catch()
     }, []);
 
-    const editar = (id) => {
+    const editar = (e) => {
         setModoEdicao(true);
+        let clienteEncontrado = clientes.find(c => c.id == e.target.id);
+        clienteEncontrado.dataCadastro = clienteEncontrado.dataCadastro.substring(0, 10);
+        setCliente(clienteEncontrado);
     };
 
-    const excluir = (id) => {
-
+    const excluir = (e) => {
+        let clienteEncontrado = clientes.find(c => c.id == e.target.id);
+        Swal.fire({
+            title: 'Deseja realmente excluir o clinte ' + clienteEncontrado.nome,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#43A047',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim',
+            cancelButtonText: 'Não',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                excluirClienteBackEnd(clienteEncontrado.id);
+            }
+        })
     };
 
     const salvar = () => {
@@ -41,6 +57,12 @@ function ClientePage() {
 
     const adicionar = () => {
         setModoEdicao(false);
+    };
+
+    const atualizarClienteNaTabela = (clienteAtualizado, removerCliente = false) => {
+        let indice = clientes.findIndex((cliente) => cliente.id === clienteAtualizado.id);
+        (removerCliente) ? clientes.splice(indice, 1) : clientes.splice(indice, 1, cliente);
+        setClientes(arr => [...arr]);
     };
 
     const adicionarClienteBackend = (cliente) => {
@@ -62,7 +84,37 @@ function ClientePage() {
     };
 
     const atualizarClienteBackend = (cliente) => {
+        clienteService.atualizarCliente(cliente)
+            .then(response => {
+                atualizarClienteNaTabela(response.data, false);
+                limparCliente();
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Cliente atualizado com sucesso!',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            })
+            .catch(erro => {
 
+            })
+    };
+
+    const excluirClienteBackEnd = (id) => {
+        clienteService.excluirCliente(id)
+            .then(() => {
+                let clienteEncontrado = clientes.find(c => c.id == id);
+                atualizarClienteNaTabela(clienteEncontrado, true);
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Cliente excluido com sucesso!',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+
+            })
     };
 
     const limparCliente = () => {
@@ -125,8 +177,8 @@ function ClientePage() {
                                     <td>{cliente.telefone}</td>
                                     <td>{new Date(cliente.dataCadastro).toLocaleDateString()}</td>
                                     <td>
-                                        <button onClick={editar} class="btn btn-outline-primary btn-sm mr-2" data-bs-toggle="modal" data-bs-target="#modal-cliente">Editar</button>
-                                        <button onClick={excluir} class="btn btn-outline-primary btn-sm mr-2">Excluir</button>`
+                                        <button id={cliente.id} onClick={editar} class="btn btn-outline-primary btn-sm mr-2 espacar" data-bs-toggle="modal" data-bs-target="#modal-cliente">Editar</button>
+                                        <button id={cliente.id} onClick={excluir} class="btn btn-outline-primary btn-sm mr-2 espacar">Excluir</button>
                                     </td>
                                 </tr>
                             ))}

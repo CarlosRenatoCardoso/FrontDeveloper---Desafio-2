@@ -53,3 +53,8 @@ div.modal-dialog {
 .nav-link:hover {
     color: #fff;
 }
+
+.espacar {
+    margin-left: 4px;
+    margin-right: 4px;
+}

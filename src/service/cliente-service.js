@@ -18,7 +18,25 @@ function adicionarCliente(cliente) {
     });
 }
 
+function atualizarCliente(cliente) {
+    return new Promise((resolve, reject) => {
+        service.put(`/clientes/${cliente.id}`, cliente)
+        .then(response => resolve(response))
+        .catch(erro => reject(erro))
+    });
+}
+
+function excluirCliente(id) {
+    return new Promise((resolve, reject) => {
+        service.delete(`/clientes/${id}`)
+        .then(response => resolve(response))
+        .catch(erro => reject(erro))
+    });
+}
+
 export default {
     obterCliente,
-    adicionarCliente
+    adicionarCliente,
+    atualizarCliente,
+    excluirCliente
 }
