@@ -1,7 +1,6 @@
 import Login from "./pages/login";
-import Home from "./pages/home";
 import ClientePage from "./pages/clientes";
-import Produto from "./pages/produtos";
+import ProdutoPage from "./pages/produtos";
 
 import Menu from "./components/menu";
 
@@ -12,10 +11,9 @@ function Router() {
         <BrowserRouter>
         <Menu/>
         <Routes>
-            <Route path="/login" element={<Login/>}/>
-            <Route exact path="/" element={<Home/>}/>
+            <Route exact path="/login" element={<Login/>}/>
             <Route path="/clientes" element={<ClientePage/>}/>
-            <Route path="/produtos" element={<Produto/>}/>
+            <Route path="/produtos" element={<ProdutoPage/>}/>
         </Routes>
         </BrowserRouter>
     );

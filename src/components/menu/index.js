@@ -9,8 +9,7 @@ function Menu(){
     if(useLocation().pathname !== '/login'){
         return(
             <ul className='menu'>
-                <li><Link to='/'>Home</Link></li>
-                <li><Link to='/clientes'>Clintes</Link></li>
+                <li><Link to='/clientes'>Clientes</Link></li>
                 <li><Link to='/produtos'>Produtos</Link></li>
                 <li><Link onClick={logout}>Sair</Link></li>
             </ul>

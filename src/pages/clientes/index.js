@@ -2,7 +2,6 @@ import './index.css';
 import clienteService from '../../service/cliente-service';
 import Cliente from '../../models/cliente';
 import Swal from 'sweetalert2';
-
 import { useEffect, useState } from 'react';
 
 function ClientePage() {

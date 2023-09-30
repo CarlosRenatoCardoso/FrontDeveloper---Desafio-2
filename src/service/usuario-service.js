@@ -45,12 +45,12 @@ function validarUsuarioAutenticado() {
 
     if (window.location.pathname == "/login") {
         if (logado) {
-            window.open("/", '_self')
+            window.open("/clientes", '_self')
         }
-    } else if ((!logado && window.location.pathname != "/login")) {
-        direcionarTelaDeLogin();
     }
 }
+
+validarUsuarioAutenticado();
 
 export default {
     autenticar,

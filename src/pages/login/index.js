@@ -6,14 +6,15 @@ import usuarioService from '../../service/usuario-service';
 
 function Login() {
 
-    const [email, setEmail] = useState('admin@admin.com');
-    const [senha, setSenha] = useState('123456');
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
 
     const logar = () => {
         if (!email || !senha) {
             Swal.fire({
                 icon: 'error',
                 text: 'O campo de e-mail e senha são obrigatórios',
+                confirmButtonColor: '#43A047'
             })
             return;
         }
@@ -21,9 +22,24 @@ function Login() {
         .then(response => {
             usuarioService.salvarToken(response.data.token);
             usuarioService.salvarUsuario(response.data.usuario);
-            window.location = '/';
+            Swal.fire({
+                icon: 'success',
+                title: 'Usuário autenticado com sucesso!',
+                showConfirmButton: false,
+                timer: 2500
+            })
+            setTimeout(() => {
+                window.location = '/clientes';
+            }, 2500)
         })
-        .catch()
+        .catch(erro => {
+            Swal.fire({
+                icon: 'error',
+                title:'Usuário não cadastrado!',
+                text: 'Verifique o email ou a senha',
+                confirmButtonColor: '#43A047'
+            })
+        })
     };
 
     return (
